@@ -6,11 +6,37 @@ import pytesseract as pt
 import json
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
+import keyboard
+from os import path
 
 pt.pytesseract.tesseract_cmd= "/usr/local/Cellar/tesseract/4.1.1/bin/tesseract"
 
 def empty():
     pass
+
+# Saves data to file
+def save_to_file(data):
+    if path.exists("./collection.json"):
+        with open('collection.json', "r+", encoding='utf-8') as json_file:
+            existingData = json.load(json_file)
+            if data['name'] in existingData:
+                print("here")
+                existingData[data['name']].update({"quantity": existingData[data['name']]['quantity'] + 1})
+            else:
+                print("not here")
+                existingData.update({data['name']: {
+                    "value": data['value'],
+                    "quantity": 1
+                }})
+            json_file.seek(0)
+            json.dump(existingData, json_file, ensure_ascii=False, indent=4)
+    else:
+        with open('collection.json', "w", encoding='utf-8') as json_file:
+            print("new")
+            json.dump({data['name']: {
+                "value": data['value'],
+                "quantity": 1
+            }}, json_file, ensure_ascii=False, indent=4)
 
 def build_card_list():
     with open('data.json', 'r') as json_file:
@@ -77,7 +103,6 @@ def warp_image(originalImg, img, documentEdge):
     if len(documentEdge) == 4:
         x,y,w,h = cv2.boundingRect(documentEdge)
         card = originalImg[y:y+h, x:x+w]
-        cv2.imshow("Card", card)
         documentEdge = reorder_points(documentEdge)
 
         pts1 = np.array(documentEdge)
@@ -124,18 +149,29 @@ while camera.isOpened():
     cardTitleOCR = card_title_ocr(warpedFrame)
     card = get_card_by_name(cardList, cardTitleOCR)
 
-    # Adds card name and value to frame output
-    cv2.putText(warpedFrame, card["name"], (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0))
-    cv2.putText(warpedFrame, card["value"], (100, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0))
+    # If the card is found
+    if card != None:
+        # Adds card name and value to frame output
+        cv2.putText(warpedFrame, card["name"], (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0))
+        cv2.putText(warpedFrame, card["value"], (100, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0))
+        cv2.imshow("Webcam", warpedFrame)
+        
+        # If the card has any value, pause the feed and ask to save
+        if float(card["value"][1:]) > 0:
+            cv2.putText(warpedFrame, "Press 's' to save or 'p' to not save", (100, 200), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0))
+            cv2.imshow("Webcam", warpedFrame)
+            cv2.waitKey(0)
+            while(True):
+                if keyboard.read_key() == 's':
+                    save_to_file(card)
+                    print("saved to file")
+                    break
+                else:
+                    break
     
     # Show frame in window
     cv2.imshow("Webcam", warpedFrame)
-
-    # If the card has any value, pause the feed and ask to save
-    if float(card["value"][1:]) > 0:
-        cv2.waitKey(-1)
-        cv2.putText(warpedFrame, "Press 's' to save", (100, 200), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0))
-
+            
     # Wait for user to press 'q'
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
