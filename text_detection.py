@@ -38,6 +38,7 @@ def save_to_file(data):
                 "quantity": 1
             }}, json_file, ensure_ascii=False, indent=4)
 
+# Pulls a list of cards from the dataset
 def build_card_list():
     with open('data.json', 'r') as json_file:
         data = json.load(json_file)
@@ -52,13 +53,9 @@ def get_card_by_name(cardList, name):
     if len(list(filter(lambda card: fuzz.token_sort_ratio(name, card["name"]) > 80, cardList))) > 0:
         return list(filter(lambda card: fuzz.token_sort_ratio(name, card["name"]) > 80, cardList))[0]
     return None
-    
-def generate_trackbars():
-    cv2.namedWindow("Image settings")
-    cv2.resizeWindow("Image settings", 640, 300)
-    cv2.createTrackbar("Hue Min", "Image settings", 0, 179, empty)
 
-def get_contours(originalImg, img):
+# Finds the border of the card and returns the coordinates for the corners
+def get_contours(img):
     maxContour = np.array([])
     maxArea = 0
     contours, heirarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
@@ -72,7 +69,6 @@ def get_contours(originalImg, img):
                 maxArea = area
                 cv2.drawContours(contouredFrame, maxContour, -1, (255, 0, 0), 30)
     return maxContour
-
 
 def process_image(img):
     greyed = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -102,6 +98,7 @@ def warp_image(originalImg, img, documentEdge):
     width, height = img.shape
     if len(documentEdge) == 4:
         x,y,w,h = cv2.boundingRect(documentEdge)
+        # Crops the image to just the card
         card = originalImg[y:y+h, x:x+w]
         documentEdge = reorder_points(documentEdge)
 
@@ -114,7 +111,8 @@ def warp_image(originalImg, img, documentEdge):
         return img
 
 def card_title_ocr(img):
-    cardTitleImage = img[30:80, 30:300]
+    cardTitleImage = img[5:80, 5:300]
+    cv2.imshow("Title", cardTitleImage)
     return pt.image_to_string(cardTitleImage)
 
 # Init webcam connection
@@ -140,7 +138,7 @@ while camera.isOpened():
     contouredFrame = processedFrame.copy()
 
     # Get the bounding box of the card
-    documentEdge = get_contours(frame, contouredFrame)
+    documentEdge = get_contours(contouredFrame)
 
     # Use warped translate 
     warpedFrame = warp_image(frame, contouredFrame, documentEdge)
