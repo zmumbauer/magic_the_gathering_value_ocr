@@ -2,23 +2,28 @@ from cv2 import cv2
 import pdb
 import numpy as np
 import pytesseract as pt
+import json
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
 
 pt.pytesseract.tesseract_cmd= "/usr/local/Cellar/tesseract/4.1.1/bin/tesseract"
 
 def empty():
     pass
 
-def convert_to_grey(img):
-    grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    return grey
+def build_card_list():
+    with open('data.json', 'r') as json_file:
+        data = json.load(json_file)
+    cardList = []
+    for key, value in data.items():
+        for card in value['cards']:
+            cardList.append(card)
+    return cardList
 
-def add_blur(img):
-    blur = cv2.GaussianBlur(img, (5,5), 0)
-    return blur
-
-def edge_detect(img):
-    edged = cv2.Canny(img, 100, 100)
-    return edged
+def get_value_by_name(cardList, name):
+    if len(list(filter(lambda card: fuzz.token_sort_ratio(name, card["name"]) > 80, cardList))) > 0:
+        return list(filter(lambda card: fuzz.token_sort_ratio(name, card["name"]) > 80, cardList))[0]['value']
+    return "Not found"
     
 def generate_trackbars():
     cv2.namedWindow("Image settings")
@@ -66,8 +71,6 @@ def reorder_points(documentEdge):
 
     return newPoints
 
-
-
 def warp_image(originalImg, img, documentEdge):
     width, height = img.shape
     if len(documentEdge) == 4:
@@ -84,13 +87,20 @@ def warp_image(originalImg, img, documentEdge):
     else:
         return img
 
+def get_card_details(img):
+    cardTitleImage = img[30:80, 30:300]
+    cv2.imshow("Card Title", cardTitleImage)
+    return pt.image_to_string(cardTitleImage)
+
 # Init webcam connection
 cv2.namedWindow("Webcam")
 camera = cv2.VideoCapture(1)
 retVal, frame = camera.read()
-print(frame.shape)
 camera.set(3, 1080)
 camera.set(4, 1920)
+
+# Get card list from data
+cardList = build_card_list()
 
 # Read camera and display to screen until user presses 'q' key
 while True:
@@ -101,9 +111,20 @@ while True:
     # Process the frame
     processedFrame = process_image(frame)
 
+    # Make copy of frame to draw contour
     contouredFrame = processedFrame.copy()
+
+    # Get the bounding box of the card
     documentEdge = get_contours(frame, contouredFrame)
+
+    # Use warped translate 
     warpedFrame = warp_image(frame, contouredFrame, documentEdge)
+
+    cardName = get_card_details(warpedFrame)
+
+    cv2.putText(warpedFrame, cardName, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0))
+    cv2.putText(warpedFrame, get_value_by_name(cardList, cardName), (100, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0))
+    
     cv2.imshow("Webcam", warpedFrame)
     
     # Wait for user to press 'q'

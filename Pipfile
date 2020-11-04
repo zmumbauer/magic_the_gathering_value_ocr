@@ -10,6 +10,10 @@ pylint = "*"
 pytesseract = "*"
 opencv-python = "*"
 numpy = "*"
+bs4 = "*"
+requests-html = "*"
+fuzzywuzzy = "*"
+python-levenshtein = "*"
 
 [requires]
 python_version = "3.7.0"
