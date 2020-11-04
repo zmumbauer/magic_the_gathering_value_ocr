@@ -14,6 +14,7 @@ bs4 = "*"
 requests-html = "*"
 fuzzywuzzy = "*"
 python-levenshtein = "*"
+keyboard = "*"
 
 [requires]
 python_version = "3.7.0"
