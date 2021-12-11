@@ -15,6 +15,7 @@ requests-html = "*"
 fuzzywuzzy = "*"
 python-levenshtein = "*"
 keyboard = "*"
+imutils = "*"
 
 [requires]
 python_version = "3.7.0"

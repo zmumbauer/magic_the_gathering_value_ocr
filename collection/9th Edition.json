@@ -1,0 +1,138 @@
+{
+    "Crossbow Infantry": {
+        "value": "$0.05",
+        "quantity": 3
+    },
+    "Anarchist": {
+        "value": "$0.13",
+        "quantity": 2
+    },
+    "Suntail Hawk": {
+        "value": "$0.09",
+        "quantity": 2
+    },
+    "Veteran Cavalier": {
+        "value": "$0.83",
+        "quantity": 2
+    },
+    "Skyhunter Prowler": {
+        "value": "$0.86",
+        "quantity": 1
+    },
+    "Angel of Mercy": {
+        "value": "$0.12",
+        "quantity": 3
+    },
+    "Demolish": {
+        "value": "$0.10",
+        "quantity": 2
+    },
+    "Master Decoy": {
+        "value": "$0.84",
+        "quantity": 2
+    },
+    "Chastise": {
+        "value": "$0.87",
+        "quantity": 1
+    },
+    "Tree Monkey": {
+        "value": "$0.88",
+        "quantity": 1
+    },
+    "Angel's Feather": {
+        "value": "$0.88",
+        "quantity": 1
+    },
+    "Highway Robber": {
+        "value": "$0.07",
+        "quantity": 1
+    },
+    "Ballista Squad": {
+        "value": "$0.10",
+        "quantity": 1
+    },
+    "Hill Giant": {
+        "value": "$0.05",
+        "quantity": 4
+    },
+    "Pacifism": {
+        "value": "$0.06",
+        "quantity": 2
+    },
+    "Volcanic Hammer": {
+        "value": "$0.82",
+        "quantity": 3
+    },
+    "Panic Attack": {
+        "value": "$0.82",
+        "quantity": 1
+    },
+    "Mending Hands": {
+        "value": "$0.06",
+        "quantity": 1
+    },
+    "Flowstone Shambler": {
+        "value": "$0.07",
+        "quantity": 1
+    },
+    "Glorious Anthem": {
+        "value": "$1.09",
+        "quantity": 1
+    },
+    "Righteousness": {
+        "value": "$0.25",
+        "quantity": 1
+    },
+    "Dragon's Claw": {
+        "value": "$0.35",
+        "quantity": 1
+    },
+    "Dancing Scimitar": {
+        "value": "$0.88",
+        "quantity": 1
+    },
+    "Samite Healer": {
+        "value": "$0.04",
+        "quantity": 1
+    },
+    "Balduvian Barbarians": {
+        "value": "$0.05",
+        "quantity": 3
+    },
+    "Overgrowth": {
+        "value": "$1.03",
+        "quantity": 1
+    },
+    "Stone Rain": {
+        "value": "$0.93",
+        "quantity": 2
+    },
+    "Order of the Sacred Bell": {
+        "value": "$0.82",
+        "quantity": 1
+    },
+    "Blaze": {
+        "value": "$0.88",
+        "quantity": 1
+    },
+    "Lava Axe": {
+        "value": "$0.04",
+        "quantity": 2
+    },
+    "Magnivore": {
+        "value": "$0.25",
+        "quantity": 1
+    },
+    "Wildfire": {
+        "value": "$1.17",
+        "quantity": 1
+    },
+    "Venerable Monk": {
+        "value": "$0.09",
+        "quantity": 1
+    },
+    "Infantry Veteran": {
+        "value": "$0.83",
+        "quantity": 1
+    }
+}

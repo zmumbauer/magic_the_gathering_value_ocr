@@ -1,0 +1,58 @@
+{
+    "Icatian Priest": {
+        "value": "$0.10",
+        "quantity": 1
+    },
+    "Holy Strength": {
+        "value": "$0.09",
+        "quantity": 1
+    },
+    "Spitting Earth": {
+        "value": "$0.83",
+        "quantity": 2
+    },
+    "Lava Axe": {
+        "value": "$0.05",
+        "quantity": 1
+    },
+    "Severed Legion": {
+        "value": "$0.87",
+        "quantity": 1
+    },
+    "Tundra Wolves": {
+        "value": "$0.87",
+        "quantity": 1
+    },
+    "Terramorphic Expanse": {
+        "value": "$0.31",
+        "quantity": 1
+    },
+    "Skyshroud Ranger": {
+        "value": "$0.98",
+        "quantity": 1
+    },
+    "Commune with Nature": {
+        "value": "$0.11",
+        "quantity": 1
+    },
+    "Spined Wurm": {
+        "value": "$0.81",
+        "quantity": 1
+    },
+    "Goblin Elite Infantry": {
+        "value": "$0.80",
+        "quantity": 1
+    },
+    "Fugitive Wizard": {
+        "value": "$0.83",
+        "quantity": 2
+    },
+    "Recover": {
+        "value": "$0.86",
+        "quantity": 1
+    },
+    "Merfolk Looter": {
+        "value": "$0.83",
+        "quantity": 2
+    }
+}
